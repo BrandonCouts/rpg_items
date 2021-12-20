@@ -801,6 +801,8 @@ function remove_modifier(force, modifier, mult)
 			force[modifier.modifier] = math.max(0,force[modifier.modifier] - modifier.value*mult)
 			force["character_build_distance_bonus"] = math.max(0,force["character_build_distance_bonus"] - modifier.value*mult)
 			force["character_resource_reach_distance_bonus"] = math.max(0,force["character_resource_reach_distance_bonus"] - modifier.value*mult/4)
+		elseif modifier.modifier == "character_inventory_slots_bonus" then
+			global.forces[force.name].last_character_inventory_slots_bonus = modifier.value
 		else
 			local new_mod = math.max(0,force[modifier.modifier] - modifier.value*mult)
 			if new_mod < 0.00000001 then
@@ -890,6 +892,8 @@ function add_modifier(force, modifier, mult)
 			force[modifier.modifier] = math.max(0,force[modifier.modifier] + modifier.value*mult)
 			force["character_build_distance_bonus"] = math.max(0,force["character_build_distance_bonus"] + modifier.value*mult)
 			force["character_resource_reach_distance_bonus"] = math.max(0,force["character_resource_reach_distance_bonus"] + modifier.value*mult/4)
+		elseif modifier.modifier == "character_inventory_slots_bonus" then
+			force[modifier.modifier] = force[modifier.modifier] + ( modifier.value - global.forces[force.name].last_character_inventory_slots_bonus ) * mult
 		else
 			--game.print(force[modifier.modifier])
 			force[modifier.modifier] = force[modifier.modifier] + modifier.value*mult
